@@ -1,2 +1,7 @@
 @import url('./main-layout.css');
 @import url('line-awesome/dist/line-awesome/css/line-awesome.min.css');
+
+.calendar-row p {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
