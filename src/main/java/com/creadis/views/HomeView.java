@@ -1,6 +1,6 @@
 package com.creadis.views;
 
-import com.creadis.views.calendar.Calendar;
+import com.creadis.views.calendar.CalendarGrid;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -17,9 +17,9 @@ public class HomeView extends VerticalLayout {
         content.setWidthFull();
         content.setSizeFull();
 
-        Calendar calendar = new Calendar();
+        CalendarGrid calendar = new CalendarGrid();
 
-        Paragraph p = new Paragraph("hello from paragrapth");
+        Paragraph p = new Paragraph("hello from paragraph");
         Button b = new Button("click me");
 
         content.add(calendar, p, b);
