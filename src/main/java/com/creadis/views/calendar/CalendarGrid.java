@@ -8,8 +8,10 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class CalendarGrid extends VerticalLayout {
 //    private Date date2 = new Date();
@@ -21,6 +23,9 @@ public class CalendarGrid extends VerticalLayout {
 //    private SimpleDateFormat dateDay = new SimpleDateFormat("u");
 //    private SimpleDateFormat headerDateFormat = new SimpleDateFormat("yyyy MMM");
     private int dayNumber = 1;
+    private LocalDate localDate = LocalDate.now();
+    private int dayOfWeek = localDate.getDayOfWeek().getValue();
+    private int curentDay = 1;
 
     public CalendarGrid() {
         this.addClassNames("calendar", "p-0", "m-0");
@@ -46,35 +51,43 @@ public class CalendarGrid extends VerticalLayout {
 //        add(new H2(String.valueOf(year + " - " + month)));
 
 
-        LocalDate localDate = LocalDate.now();
         add(new H2(localDate.getYear() + " - " + localDate.getMonth()));
+        add(new H2(localDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH) + " = " + dayOfWeek));
 //        add(new Span("Today is " + localDate.getYear()));
 //        add(new Span("Today is " + localDate.getMonth()));
 //        add(new Span("Today is " + localDate.getDayOfMonth()));
 //        add(new Span("Today is " + localDate.getDayOfWeek()));
 
 
-        addRow(true);
-        addRow(false);
-        addRow(false);
-        addRow(false);
-        addRow(false);
-        addRow(false);
+        addRow(true, false);
+        addRow(false, true);
+        addRow(false, false);
+        addRow(false, false);
+        addRow(false, false);
+        addRow(false, false);
     }
 
-    private void addRow(boolean isHeader) {
+    private void addRow(boolean isHeader, boolean isFirstWeek) {
         HorizontalLayout row = new HorizontalLayout();
         row.addClassName("calendar-row");
         row.setWidthFull();
 
-        if (isHeader) {
-            String[] dayNames = {"Mon", "Tue", "Wed", "Thu", "Fri", " "};
-            for (int i = 0; i < 6; i++) {
-                row.add(createCell(dayNames[i]));
-            }
+        if (isHeader && isFirstWeek) {
+            return;
         }
-        else {
-            for (int i = 0; i < 5; i++) {
+
+        if (isHeader) {
+            String[] dayNames = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", " "};
+            for (String s : dayNames) {
+                row.add(createCell(s));
+            }
+        } else if (isFirstWeek) {
+            for (int i = 0; i <7; i++) {
+                row.add(Integer.toString(curentDay++));
+            }
+            row.add(createCell("buttons"));
+        } else {
+            for (int i = 0; i < 7; i++) {
                 row.add(createCell("Day " + dayNumber++));
             }
             row.add(createCell("buttons"));
